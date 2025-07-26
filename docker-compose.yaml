@@ -1,0 +1,23 @@
+services:
+  mongo:
+    image: "mongo"
+    container_name: mongocontainer
+    volumes:
+      - mongo-data:/data/db
+    ports:
+      - 27017:27017
+
+  express:
+    image: karanlakhadive96/node-mongo-app
+    environment:
+      - MONGO_URI=${MONGO_URI}
+      - PORT=${PORT}
+    container_name: express-application
+    depends_on: [mongo]
+    ports:
+      - "3000:3000"
+
+volumes:
+  mongo-data:
+      
+  
