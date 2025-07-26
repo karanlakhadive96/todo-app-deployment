@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: node-app-deployment
+spec:
+  selector:
+    matchLabels:
+      app: node-app
+  template:
+    metadata:
+      labels:
+        app: node-app
+    spec:
+      containers:
+      - name: node-app
+        image: karanlakhadive96/node-mongo-app
+        env:
+        - name: MONGO_URI
+          valueFrom:
+            secretKeyRef:
+              name: mongo-secret 
+              key: mongo_uri 
+        - name: PORT
+          valueFrom:
+            configMapKeyRef:
+              name: mongo-cm
+              key: port
+        ports:
+        - containerPort: 3000
